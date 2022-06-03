@@ -1,0 +1,10 @@
+// This is a comment
+// This is another comment
+
+string = Hello world!
+anotherVal = 17
+
+output anotherVal
+
+operation = EVAL 3 * anotherVal
+output operation
