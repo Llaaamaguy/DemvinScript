@@ -65,3 +65,38 @@ class PlusNode:
 
     def eval(self):
         return self.left.eval() + self.right.eval()
+
+
+class TrueDivNode:
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+    def eval(self):
+        return self.left.eval() / self.right.eval()
+
+
+class FloorDivNode:
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+    def eval(self):
+        return self.left.eval() // self.right.eval()
+
+
+class ListNode:
+    def __init__(self, vals):
+        self.vals = vals
+
+    def __repr__(self):
+        return str(self.vals)
+
+    def __str__(self):
+        return str(self.vals)
+
+    def __iter__(self):
+        for i in self.vals:
+            yield i
+
+

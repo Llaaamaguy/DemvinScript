@@ -2,9 +2,9 @@
 // This is another comment
 
 string = Hello world!
-anotherVal = 17
+anotherVal = 16
 
 output anotherVal
 
-operation = EVAL 3 * anotherVal
+operation = EVAL anotherVal /// 4
 output operation

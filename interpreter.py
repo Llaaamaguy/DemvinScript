@@ -16,6 +16,7 @@
 from wit import Wit
 import os
 from Nodes import *
+from Exceptions import *
 
 token = os.environ["WIT_TOKEN"]
 client = Wit(token)
@@ -58,12 +59,31 @@ def main():
                             eval_left = str(varStore[eval_left].varValue)
                         if eval_right in list(varStore.keys()):
                             eval_right = str(varStore[eval_right].varValue)
-                        if eval_op == "+":
-                            varStore[varName] = VarNode(varName, PlusNode(parse_value(eval_left), parse_value(eval_right)).eval())
-                        elif eval_op == "*":
-                            varStore[varName] = VarNode(varName, TimesNode(parse_value(eval_left), parse_value(eval_right)).eval())
+                        match eval_op:
+                            case "+":
+                                varStore[varName] = VarNode(
+                                    varName,
+                                    PlusNode(parse_value(eval_left), parse_value(eval_right)).eval()
+                                )
+                            case "*":
+                                varStore[varName] = VarNode(
+                                    varName,
+                                    TimesNode(parse_value(eval_left), parse_value(eval_right)).eval()
+                                )
+                            case "/":
+                                varStore[varName] = VarNode(
+                                    varName,
+                                    TrueDivNode(parse_value(eval_left), parse_value(eval_right)).eval()
+                                )
+                            case "///":
+                                varStore[varName] = VarNode(
+                                    varName,
+                                    FloorDivNode(parse_value(eval_left), parse_value(eval_right)).eval()
+                                )
+                            case _:
+                                raise UnknownOperatorError
                     except KeyError:
-                        print(f"WARNING ON {line}: All entities not found\nIgnoring variable definition")
+                        raise InterpreterRecognitionError
                     pass
             elif linetype == "output":
                 try:
@@ -72,7 +92,7 @@ def main():
                         toPrint = str(varStore[toPrint])
                     print(f"SYS-OUT: {toPrint}")
                 except KeyError:
-                    print(f"WARNING ON {line}: All entities not found\nIgnoring output statement")
+                    raise InterpreterRecognitionError
         else:
             # print(f"{lines.index(line)}: Empty line")
             pass
